@@ -1,5 +1,7 @@
 # Simple Angular app using d3.js and Yahoo Finance Api for displaing stock charts
 
+## See [DEMO](http://krystiangw.github.io/d3-yql-angular/dist/)
+
 ### How to run locally:
 1. clone the project
 2. run `npm start`
