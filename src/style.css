@@ -47,3 +47,17 @@ text.shadow {
     height: 200px;
     overflow: scroll;
 }
+
+text.legend {
+    cursor: pointer;
+}
+
+text.legend:hover {
+    font-weight: bold;
+}
+
+
+.stock-data {
+    height: 400px;
+    overflow: scroll;
+}

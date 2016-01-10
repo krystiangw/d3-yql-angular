@@ -75,7 +75,7 @@ function SelectionDirective(dataUtils){
             if (isSelected(item) && vm.selected.length > 1){
                 vm.selected.splice(vm.selected.indexOf(item), 1);
                 vm.onSelected();
-            } else if (vm.selected.length < 3) {
+            } else if (!isSelected(item) && vm.selected.length < 3) {
                 vm.selected.push(item);
                 vm.onSelected();
             }

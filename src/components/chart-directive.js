@@ -22,7 +22,8 @@ function chartDirective(dataUtils){
             chartStartDay: '=',
             chartEndDay: '=',
             chartSelectedData: '=',
-            chartSelected: '&'
+            chartSelected: '&',
+            chartStockSelected: '&',
         },
         template: `
           <div>
@@ -39,9 +40,9 @@ function chartDirective(dataUtils){
             }
         });
 
-        var margin = { top: 30, right: 40, bottom: 50, left: 50 },
+        var margin = { top: 30, right: 40, bottom: 110, left: 50 },
                 width = 600 - margin.left - margin.right,
-                height = 270 - margin.top - margin.bottom;
+                height = 400 - margin.top - margin.bottom;
 
         // // Parse the date / time
         var parseDate = d3.time.format("%Y-%m-%d").parse;
@@ -56,9 +57,11 @@ function chartDirective(dataUtils){
         var yAxis = d3.svg.axis().scale(y)
             .orient("left").ticks(5);
 
-        var valueline = d3.svg.line()
-            .x(function(d) { return x(d.date); })
-            .y(function(d) { return y(d.high); });
+        var color = d3.scale.category10();
+
+        var priceline = d3.svg.line()   
+            .x(function(d) { return x(new Date(d.Date)); })
+            .y(function(d) { return y(d.Close); });
 
 
         var svg = d3.select(elm[0])
@@ -113,13 +116,48 @@ function chartDirective(dataUtils){
             var svg = d3.select(elm[0]).transition(),
             svgBase = d3.select(elm[0]).select('g');
             svgBase.selectAll('.line').remove();
+            svgBase.selectAll('.legend').remove();
 
-            groups.forEach(function(group){
+            var dataNest = d3.nest()
+                .key(function(d) {return d.Symbol;})
+                .entries(data);
+
+            
+            dataNest.forEach(function(d,i) { 
                 svgBase.append("path")
                 .attr("class", "line")
-                .attr("d", valueline(group))
-                .text('group !');
-            });
+                .style("stroke", () => { 
+                    d.color = color(d.key); 
+                    return d.color;
+                })
+                .attr("id", 'tag'+d.key.replace(/\s+/g, '')) // assign ID
+                .attr("d", priceline(d.values));
+
+                svgBase.append("text")
+                .attr("x", (100/2)+i*100)  // space legend
+                .attr("y", height + (margin.bottom/2)+ 5)
+                .attr("class", "legend")    // style the legend
+                .style("fill",() => { // Add the colours dynamically
+                    d.color = color(d.key); 
+                    return d.color;
+                })
+                .on("click", function(){
+                    svgBase.selectAll(".line").style('stroke-width','1px');
+                    svgBase.selectAll(".legend").style('font-weight','normal');
+
+                    d3.select("#tag"+d.key.replace(/\s+/g, ''))
+                    .transition().duration(100) 
+                    .style("stroke-width", '3px');
+
+                    this.style.setProperty('font-weight', 'bold');
+
+                    scope.chartStockSelected({
+                        symbol: d.key,
+                        data: d.values
+                    });
+                })  
+                .text(d.key); 
+             });
 
             svg.select(".label")   // change the label text
             .duration(750)
@@ -130,8 +168,7 @@ function chartDirective(dataUtils){
             .text('Title shadow');  
 
             svg.select(".stock")   // change the title
-            .duration(750)
-            .text('text stock');
+            .duration(750);
 
             svg.select(".x.axis") // change the x axis
             .duration(750)
