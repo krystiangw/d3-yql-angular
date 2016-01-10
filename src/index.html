@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+</head>
+
+<body ng-controller="AppController as vm">
+
+  <h1>Super</h1>
+  <div class="row">
+	  <div class="col-md-12">
+		  <chart chart-data="vm.chartData"
+			  chart-start-date="vm.chartStartDate"
+			  chart-end-date="vm.chartEndDate"
+		  ></chart>
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col-md-6">
+		  <selection selected="vm.chartStocks" on-selected="vm.onSelected()"></selection>
+		</div>
+	</div>
+	<script src="//d3js.org/d3.v3.min.js"></script>
+  <!-- served from webpack-dev-server -->
+  <script src="bundle.js"></script>
+</body>
+</html>
