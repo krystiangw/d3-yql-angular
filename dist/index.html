@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+</head>
+
+<body ng-controller="AppController as vm">
+	<div class="container-fluid">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header center">
+	      <a class="navbar-brand" target="_blank" href="//github.com/krystiangw/d3-yql-angular">
+	        Angular.js + D3.js + YQL
+	      </a>
+	    </div>
+	  </div>
+	</nav>
+		<div class="row">
+      <div class="col-sm-4 col-sm-offset-2">
+      	<label for="startDate">Start date</label>
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" 
+          	ng-model="vm.chartStartDate" is-open="dateStartOpen" 
+          	ng-change="vm.onSelected()"
+          	/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="dateStartOpen=!dateStartOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+      <div class="col-sm-4">
+      	<label for="startDate">End date</label>
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" 
+          	ng-model="vm.chartEndDate" is-open="dateEndOpen" 
+          	ng-change="vm.onSelected()"
+          	/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="dateEndOpen=!dateEndOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+    </div>
+
+	  <div class="row">
+		  <div class="col-sm-10 col-sm-offset-2">
+			  <chart ng-show="!vm.loading"
+			   chart-data="vm.chartData"
+				  chart-start-date="vm.chartStartDate"
+				  chart-end-date="vm.chartEndDate"
+				  chart-selected="vm.chartDaySelected({data: data, date: date})"
+				  chart-stock-selected="vm.chartStockSelected({data: data, symbol: symbol})"
+			  ></chart>
+			  <div class="chart-loading" ng-if="vm.loading">
+				  <h3>Loading ...</h3>
+				</div>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="col-sm-6">
+			  <selection selected="vm.chartStocks" on-selected="vm.onSelected()"></selection>
+			</div>
+		  <div class="col-sm-6">
+		  	<chart-details 
+		  		chart-details-data="vm.chartDetailsData"
+		  		chart-details-date="vm.chartDetailsDate"></chart-details>
+			</div>
+		</div>
+		<div class="row">
+		  <div class="col-sm-12">
+		  	<chart-data chart-data-stock="vm.stockData">
+		    </chart-data>
+		  </div>
+	  </div>
+	</div>
+	
+	<script src="//d3js.org/d3.v3.min.js"></script>
+  <!-- served from webpack-dev-server -->
+  <script src="bundle.js"></script>
+</body>
+</html>
