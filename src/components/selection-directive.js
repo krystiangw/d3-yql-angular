@@ -15,13 +15,20 @@ function SelectionDirective(dataUtils){
             onSelected: '&'
         },
         template: `
-          <h5>Select max 3 stock symbols.</h5>
-          <ul class="list-group list-selection">
-            <a ng-repeat="symbol in vm.SYMBOLS"
-             ng-click="vm.select(symbol)"
-             class="list-group-item"
-             ng-class="{'active':vm.isSelected(symbol)}">{{symbol}}</a>
-          </ul>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Select max 3 stock symbols: </h3>
+              <h3 class="panel-title">{{vm.selected.join(' ')}}</h3>
+            </div>
+            <div class="panel-body">
+              <ul class="list-group list-selection">
+                <a ng-repeat="symbol in vm.SYMBOLS"
+                 ng-click="vm.select(symbol)"
+                 class="list-group-item"
+                 ng-class="{'active':vm.isSelected(symbol)}">{{symbol}}</a>
+              </ul>
+            </div>
+          </div>
         `,
         controller: selectionCtrl,
         controllerAs: 'vm',
@@ -58,6 +65,7 @@ function SelectionDirective(dataUtils){
             "ZEP",
             "AEHR" 
         ];
+
 
         function isSelected(item){
             return vm.selected.indexOf(item) > -1;

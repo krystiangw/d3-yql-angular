@@ -9,11 +9,11 @@ class ChartController {
 }
 
 export default angular.module('directives.chart', [dataUtilModule])
-  .directive('chart', ChartDirective)
+  .directive('chart', chartDirective)
   .name;
 
 
-function ChartDirective(dataUtils){
+function chartDirective(dataUtils){
 
     return {
         restrict: 'E',
@@ -21,6 +21,8 @@ function ChartDirective(dataUtils){
             chartData: '=',
             chartStartDay: '=',
             chartEndDay: '=',
+            chartSelectedData: '=',
+            chartSelected: '&'
         },
         template: `
           <div>
@@ -37,7 +39,7 @@ function ChartDirective(dataUtils){
             }
         });
 
-        var margin = { top: 30, right: 40, bottom: 30, left: 50 },
+        var margin = { top: 30, right: 40, bottom: 50, left: 50 },
                 width = 600 - margin.left - margin.right,
                 height = 270 - margin.top - margin.bottom;
 
@@ -49,7 +51,7 @@ function ChartDirective(dataUtils){
         var y = d3.scale.linear().range([height, 0]);
 
         var xAxis = d3.svg.axis().scale(x)
-            .orient("bottom").ticks(5);
+            .orient("bottom").ticks(20);
 
         var yAxis = d3.svg.axis().scale(y)
             .orient("left").ticks(5);
@@ -88,7 +90,6 @@ function ChartDirective(dataUtils){
                 .attr("y", margin.top / 2)
                 .attr("text-anchor", "middle")
                 .style("font-size", "16px");
-
 
         function render(data) {
             data.forEach(function(d) {
@@ -134,12 +135,44 @@ function ChartDirective(dataUtils){
 
             svg.select(".x.axis") // change the x axis
             .duration(750)
-            .call(xAxis);
+            .call(xAxis)
+            .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-75)" );
+
+            svgBase.select(".x.axis").selectAll('.tick')
+            .on('mouseover', mouseOver)
+            .on('mouseout', mouseOut)
+            .on('click', dateSelected);
+
             svg.select(".y.axis") // change the y axis
             .duration(750)
             .call(yAxis);
 
+            function mouseOver(date, index){
+                svgBase.select(".x.axis")
+                .selectAll("text")[0][index]
+                .style.setProperty("font-weight", "bold");
+            }
+
+            function mouseOut(date, index){
+                svgBase.select(".x.axis")
+                .selectAll("text")[0][index]
+                .style.setProperty("font-weight", "normal");
+            }
+
+            function dateSelected(date, index){
+                scope.chartSelected({
+                    data: data.filter((item)=>{
+                        return item.date.toString() === date.toString();
+                    }),
+                    date: date
+                });
+            }
         }
+
     }
 
 }

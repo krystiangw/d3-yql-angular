@@ -1,4 +1,23 @@
-body { font: 12px Arial;}
+body {
+  font: 10px sans-serif;
+}
+
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: none;
+  stroke: steelblue;
+}
 
 path { 
     stroke: steelblue;
@@ -18,6 +37,10 @@ text.shadow {
     stroke: grey;
     stroke-width: 1;
     shape-rendering: crispEdges;
+}
+
+.x.axis .tick {
+    cursor: pointer;
 }
 
 .list-selection {

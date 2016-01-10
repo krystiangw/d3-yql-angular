@@ -16,12 +16,18 @@
 		  <chart chart-data="vm.chartData"
 			  chart-start-date="vm.chartStartDate"
 			  chart-end-date="vm.chartEndDate"
+			  chart-selected="vm.chartSelected({data: data, date: date})"
 		  ></chart>
 	  </div>
 	</div>
 	<div class="row">
-	  <div class="col-md-6">
+	  <div class="col-sm-6">
 		  <selection selected="vm.chartStocks" on-selected="vm.onSelected()"></selection>
+		</div>
+	  <div class="col-sm-6">
+	  	<chart-details 
+	  		chart-details-data="vm.chartDetailsData"
+	  		chart-details-date="vm.chartDetailsDate"></chart-details>
 		</div>
 	</div>
 	<script src="//d3js.org/d3.v3.min.js"></script>
