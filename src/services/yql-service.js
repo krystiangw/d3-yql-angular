@@ -4,6 +4,8 @@ export default angular.module('services.yql', [])
     .service('yql', yql)
     .name;
 
+yql.$inject = ['$http', '$q'];
+
 function yql($http, $q) {
     const baseUrl = "http://query.yahooapis.com/v1/public/yql";
 

@@ -6,7 +6,8 @@
   "scripts": {
     "prestart": "npm install",
     "start": "webpack-dev-server",
-    "bundle": "cp src/index.html dist/ & webpack -p ./dist/bundle.js"
+    "bundle": "cp src/index.html dist/ & webpack -p ./dist/bundle.js",
+    "serve":"http-server"
   },
   "repository": {
     "type": "git",

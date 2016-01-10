@@ -6,7 +6,7 @@ export default angular.module('directives.selection', [])
   .name;
 
 
-function SelectionDirective(dataUtils){
+function SelectionDirective(){
 
     return {
         restrict: 'E',

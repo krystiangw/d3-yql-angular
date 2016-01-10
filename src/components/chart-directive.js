@@ -1,27 +1,16 @@
 import angular from 'angular';
 import dataUtilModule from 'services/data_util-service.js';
 
-class ChartController {
-  constructor() {
-    this.title = 'Angular Webpack Minimal Starter';
-    this.info = angular.version;
-  }
-}
-
 export default angular.module('directives.chart', [dataUtilModule])
   .directive('chart', chartDirective)
   .name;
 
-
-function chartDirective(dataUtils){
+function chartDirective(){
 
     return {
         restrict: 'E',
         scope: {
             chartData: '=',
-            chartStartDay: '=',
-            chartEndDay: '=',
-            chartSelectedData: '=',
             chartSelected: '&',
             chartStockSelected: '&',
         },
@@ -99,9 +88,6 @@ function chartDirective(dataUtils){
                 d.date = parseDate(d.Date);
                 d.high = +d.High;
                 d.low = +d.Low;
-            });
-            let groups = dataUtils.groupBy(data, (item) => {
-                return item.Symbol;
             });
 
             x.domain(d3.extent(data, function(d) {

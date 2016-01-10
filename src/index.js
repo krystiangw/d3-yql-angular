@@ -7,6 +7,7 @@ import selection from 'components/selection-directive.js';
 import style from 'style.css';
 import yqlModule from 'services/yql-service.js';
 
+
 class AppController {
 
   constructor(yql, $scope, $filter) {
@@ -54,6 +55,8 @@ class AppController {
   }
 
 }
+
+AppController.$inject = ['yql', '$scope', '$filter'];
 
 angular.module('stockApp', [uibs, chart, yqlModule, selection, chartDetails, chartData])
   .controller('AppController', AppController);
