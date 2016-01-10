@@ -9,17 +9,21 @@ import yqlModule from 'services/yql-service.js';
 
 class AppController {
 
-  constructor(yql, $scope) {
+  constructor(yql, $scope, $filter) {
     var vm = this;
     vm.chartStocks = ['YHOO', 'CAMP'];
     vm.chartStartDate = '2014-01-10';
     vm.chartEndDate = '2014-03-10';
     vm.selectedData = [];
 
+    var dateFilter = $filter('date');
+
 
     vm.onSelected = () => {
-        yql.get(vm.chartStocks, vm.chartStartDate, vm.chartEndDate)
+        vm.loading = true;
+        yql.get(vm.chartStocks, dateFilter(vm.chartStartDate, 'yyyy-MM-dd'), dateFilter(vm.chartEndDate, 'yyyy-MM-dd'))
         .then((data)=>{
+            vm.loading = false;
             vm.chartData = data;
 
             // init values

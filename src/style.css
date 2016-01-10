@@ -61,3 +61,8 @@ text.legend:hover {
     height: 400px;
     overflow: scroll;
 }
+
+.chart-loading {
+    width:600px;
+    height:400px;
+}

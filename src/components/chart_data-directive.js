@@ -24,6 +24,9 @@ function chartData(){
                   Date
                 </th>
                 <th>
+                  Open
+                </th>
+                <th>
                   Close
                 </th>
                 <th>
@@ -39,6 +42,9 @@ function chartData(){
               <tr ng-repeat="item in chartDataStock" >
                 <td>
                   {{item.Date | date}}
+                </td>
+                <td>
+                  {{item.Close | currency}}
                 </td>
                 <td>
                   {{item.Close | currency}}

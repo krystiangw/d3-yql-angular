@@ -14,19 +14,50 @@
 	  <div class="container-fluid">
 	    <div class="navbar-header center">
 	      <a class="navbar-brand" target="_blank" href="//github.com/krystiangw/d3-yql-angular">
-	        AngularJs + D3.js + YQL
+	        Angular.js + D3.js + YQL
 	      </a>
 	    </div>
 	  </div>
 	</nav>
+		<div class="row">
+      <div class="col-sm-4 col-sm-offset-2">
+      	<label for="startDate">Start date</label>
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" 
+          	ng-model="vm.chartStartDate" is-open="dateStartOpen" 
+          	ng-change="vm.onSelected()"
+          	/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="dateStartOpen=!dateStartOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+      <div class="col-sm-4">
+      	<label for="startDate">End date</label>
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" 
+          	ng-model="vm.chartEndDate" is-open="dateEndOpen" 
+          	ng-change="vm.onSelected()"
+          	/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="dateEndOpen=!dateEndOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+    </div>
+
 	  <div class="row">
 		  <div class="col-sm-10 col-sm-offset-2">
-			  <chart chart-data="vm.chartData"
+			  <chart ng-show="!vm.loading"
+			   chart-data="vm.chartData"
 				  chart-start-date="vm.chartStartDate"
 				  chart-end-date="vm.chartEndDate"
 				  chart-selected="vm.chartDaySelected({data: data, date: date})"
 				  chart-stock-selected="vm.chartStockSelected({data: data, symbol: symbol})"
 			  ></chart>
+			  <div class="chart-loading" ng-if="vm.loading">
+				  <h3>Loading ...</h3>
+				</div>
 		  </div>
 		</div>
 		<div class="row">
