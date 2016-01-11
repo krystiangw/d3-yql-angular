@@ -11,6 +11,7 @@ function chartData(){
         restrict: 'E',
         scope: {
             chartDataStock:'=',
+            chartDataSelectedDay: '='
         },
         template: `
         <div class="panel panel-default">
@@ -18,7 +19,7 @@ function chartData(){
             <h3 class="panel-title">Total data for {{chartDataStock[0].Symbol}}</h3>
           </div>
           <div class="panel-body">
-            <table class="table">
+            <table class="table table-hover">
               <tr>
                 <th>
                   Date
@@ -39,7 +40,7 @@ function chartData(){
                   Volume
                 </th>
               </tr>
-              <tr ng-repeat="item in chartDataStock" >
+              <tr ng-repeat="item in chartDataStock" ng-class="{'active':item.Date == chartDataSelectedDay}" ng-click="select(item.Date)">
                 <td>
                   {{item.Date | date}}
                 </td>
@@ -69,6 +70,15 @@ function chartData(){
             </table>
           </div>
         </div>
-        `
+        `,
+        link: linkChartData
     };
+
+
+    function linkChartData(scope, elm, attrs) {
+        scope.select = function(date) {
+            scope.chartDataSelectedDay = date;
+        };
+    }
+
 }

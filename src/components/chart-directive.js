@@ -11,7 +11,7 @@ function chartDirective(){
         restrict: 'E',
         scope: {
             chartData: '=',
-            chartSelected: '&',
+            chartSelectedDay: '=',
             chartStockSelected: '&',
         },
         template: `
@@ -83,6 +83,11 @@ function chartDirective(){
                 .attr("text-anchor", "middle")
                 .style("font-size", "16px");
 
+        function dateSelected(date, index){
+            scope.chartSelectedDay = date;
+            scope.$apply();
+        }
+
         function render(data) {
             data.forEach(function(d) {
                 d.date = parseDate(d.Date);
@@ -149,13 +154,6 @@ function chartDirective(){
             .duration(750)
             .attr("transform", "translate(" + (width+3) + "," + y(data[0].high) + ")");
 
-            svg.select(".shadow") // change the title shadow
-            .duration(750)
-            .text('Title shadow');  
-
-            svg.select(".stock")   // change the title
-            .duration(750);
-
             svg.select(".x.axis") // change the x axis
             .duration(750)
             .call(xAxis)
@@ -186,14 +184,6 @@ function chartDirective(){
                 .style.setProperty("font-weight", "normal");
             }
 
-            function dateSelected(date, index){
-                scope.chartSelected({
-                    data: data.filter((item)=>{
-                        return item.date.toString() === date.toString();
-                    }),
-                    date: date
-                });
-            }
         }
 
     }
