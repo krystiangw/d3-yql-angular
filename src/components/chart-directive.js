@@ -41,7 +41,7 @@ function chartDirective(){
         var y = d3.scale.linear().range([height, 0]);
 
         var xAxis = d3.svg.axis().scale(x)
-            .orient("bottom").ticks(20);
+            .orient("bottom").ticks(35);
 
         var yAxis = d3.svg.axis().scale(y)
             .orient("left").ticks(5);

@@ -63,15 +63,15 @@
 			  <selection selected="vm.chartStocks" on-selected="vm.onSelected()"></selection>
 			</div>
 		  <div class="col-sm-6">
-		  	<chart-details 
-		  		chart-details-data="vm.chartDetailsData"
-		  		chart-details-date="vm.selectedDay"></chart-details>
+		  	<daytable 
+		  		daytable-data="vm.chartDetailsData"
+		  		daytable-selected-day="vm.selectedDay"></chart-details>
 			</div>
 		</div>
 		<div class="row">
 		  <div class="col-sm-12">
-		  	<chart-data chart-data-stock="vm.stockData" chart-data-selected-day="vm.selectedDay">
-		    </chart-data>
+		  	<datatable datatable-data="vm.stockData" datatable-selected-day="vm.selectedDay">
+		    </datatable>
 		  </div>
 	  </div>
 	</div>

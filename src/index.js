@@ -1,8 +1,8 @@
 import angular from 'angular';
 import uibs from 'angular-ui-bootstrap';
 import chart from 'components/chart-directive.js';
-import chartDetails from 'components/chart_details-directive.js';
-import chartData from 'components/chart_data-directive.js';
+import daytable from 'components/daytable-directive.js';
+import dataTable from 'components/datatable-directive.js';
 import selection from 'components/selection-directive.js';
 import style from 'style.css';
 import yqlModule from 'services/yql-service.js';
@@ -11,17 +11,20 @@ import yqlModule from 'services/yql-service.js';
 class AppController {
 
   constructor(yql, $scope, $filter) {
-    var vm = this;
+    var vm = this,
+        dateFilter = $filter('date'),
+        dateNow = new Date();
+
     // init data
-    vm.chartStocks = ['YHOO', 'CAMP'];
-    vm.chartStartDate = '2014-01-10';
-    vm.chartEndDate = '2014-03-10';
+    vm.chartStocks = ['YHOO', 'MOS'];
+    vm.chartEndDate = dateFilter(dateNow, 'yyyy-MM-dd');
+    vm.chartStartDate = dateFilter(dateNow.setMonth(dateNow.getMonth()-6), 'yyyy-MM-dd');
 
     vm.selectedDay = '2014-01-10';
 
-    vm.selectedData = [];
+    vm.chartData = [];
 
-    var dateFilter = $filter('date');
+    
 
     vm.onSelected = () => {
         vm.loading = true;
@@ -32,13 +35,16 @@ class AppController {
         .then((data)=>{
             vm.loading = false;
             vm.chartData = data;
+            if (!vm.chartData.length){
+                return;
+            }
             // init values
             vm.chartDetailsData = data.filter((item)=>{
                 return item.Date === data[0].Date;
             });
-
             vm.selectedDay = data[0].Date;
-            vm.stockData = data.filter((item)=>{
+
+            vm.stockData = vm.chartData.filter((item)=>{
                 return item.Symbol === data[0].Symbol;
             });
         });
@@ -46,9 +52,8 @@ class AppController {
     // init data load
     vm.onSelected();
 
-    vm.chartDaySelected = (data) =>{
-        vm.chartDetailsData = data.data;
-        vm.selectedDay = data.date;
+    vm.chartStockSelected = (data) =>{
+        vm.stockData = data.data; 
         $scope.$apply();
     };
 
@@ -67,7 +72,7 @@ class AppController {
 
 AppController.$inject = ['yql', '$scope', '$filter'];
 
-angular.module('stockApp', [uibs, chart, yqlModule, selection, chartDetails, chartData])
+angular.module('stockApp', [uibs, chart, yqlModule, selection, daytable, dataTable])
   .controller('AppController', AppController);
 
 angular.bootstrap(document, ['stockApp']);

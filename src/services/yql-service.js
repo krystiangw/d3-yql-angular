@@ -30,7 +30,8 @@ function yql($http, $q) {
                 env: 'store://datatables.org/alltableswithkeys'
             }
         }).success((data) =>{
-            deferred.resolve(data.query.results.quote);
+            let results = data.query.results || {quote: []};
+            deferred.resolve(results.quote);
         }).error(deferred.reject);
 
         return deferred.promise;

@@ -1,22 +1,22 @@
 
 import angular from 'angular';
 
-export default angular.module('directives.chartDataStock', [])
-  .directive('chartData', chartData)
+export default angular.module('directives.dataTable', [])
+  .directive('datatable', dataTableDirective)
   .name;
 
 
-function chartData(){
+function dataTableDirective(){
     return {
         restrict: 'E',
         scope: {
-            chartDataStock:'=',
-            chartDataSelectedDay: '='
+            datatableData:'=',
+            datatableSelectedDay: '='
         },
         template: `
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Total data for {{chartDataStock[0].Symbol}}</h3>
+            <h3 class="panel-title">Total data for {{datatableData[0].Symbol}}</h3>
           </div>
           <div class="panel-body">
             <table class="table table-hover">
@@ -40,7 +40,7 @@ function chartData(){
                   Volume
                 </th>
               </tr>
-              <tr ng-repeat="item in chartDataStock" ng-class="{'active':item.Date == chartDataSelectedDay}" ng-click="select(item.Date)">
+              <tr ng-repeat="item in datatableData" ng-class="{'active':item.Date == datatableSelectedDay}" ng-click="select(item.Date)">
                 <td>
                   {{item.Date | date}}
                 </td>
@@ -60,7 +60,7 @@ function chartData(){
                   {{item.Volume}}
                 </td>
               </tr>
-              <tr ng-if="!chartDataStock.length">
+              <tr ng-if="!datatableData.length">
                <th colspan="5">
                  <span >
                   Select stock symbol
@@ -77,7 +77,7 @@ function chartData(){
 
     function linkChartData(scope, elm, attrs) {
         scope.select = function(date) {
-            scope.chartDataSelectedDay = date;
+            scope.datatableSelectedDay = date;
         };
     }
 

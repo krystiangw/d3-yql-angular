@@ -1,22 +1,22 @@
 
 import angular from 'angular';
 
-export default angular.module('directives.chartDetails', [])
-  .directive('chartDetails', chartDetails)
+export default angular.module('directives.daytable', [])
+  .directive('daytable', daytableDirective)
   .name;
 
 
-function chartDetails(){
+function daytableDirective(){
     return {
         restrict: 'E',
         scope: {
-            chartDetailsData:'=',
-            chartDetailsDate: '='
+            daytableData:'=',
+            daytableSelectedDay: '='
         },
         template: `
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Daily details {{chartDetailsDate | date}}</h3>
+            <h3 class="panel-title">Daily details {{daytableSelectedDay | date}}</h3>
           </div>
           <table class="table">
             <tr>
@@ -36,7 +36,7 @@ function chartDetails(){
                 Volume
               </th>
             </tr>
-            <tr ng-repeat="item in chartDetailsData" >
+            <tr ng-repeat="item in daytableData" >
               <td>
                 {{item.Symbol}}
               </td>
@@ -53,12 +53,12 @@ function chartDetails(){
                 {{item.Volume}}
               </td>
             </tr>
-            <tr ng-if="!chartDetailsData.length">
+            <tr ng-if="!daytableData.length">
              <th colspan="5">
-               <span ng-if="chartDetailsDate">
+               <span ng-if="daytableData">
                 No data for {{chartDetailsDate | date:'EEEE yyyy MMMM dd'}}</span>
                </span>
-               <span ng-if="!chartDetailsDate">
+               <span ng-if="!daytableData">
                 Select date on x Axis first
                 </span>
              </th>
